@@ -1,0 +1,24 @@
+server:
+  port: 8101
+spring:
+  # 数据库配置
+  # todo 需替换配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: x
+    username: x
+    password: x
+  # Redis 配置
+  # todo 需替换配置
+  redis:
+    database: x
+    host: x
+    port: x
+    timeout: 5000
+    password: x
+  # Elasticsearch 配置
+  # todo 需替换配置
+  elasticsearch:
+    uris: x
+    username: x
+    password: x
