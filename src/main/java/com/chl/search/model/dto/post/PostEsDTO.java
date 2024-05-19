@@ -26,6 +26,7 @@ import java.util.List;
 @Data
 public class PostEsDTO implements Serializable {
 
+    //规定日期时间的格式
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     /**
@@ -57,6 +58,7 @@ public class PostEsDTO implements Serializable {
 
     /**
      * 创建时间
+     * 一定要指定日期的格式，因为ES中的格式有可能会和Java中的格式不一样
      */
     @Field(index = false, store = true, type = FieldType.Date, format = {}, pattern = DATE_TIME_PATTERN)
     private Date createTime;

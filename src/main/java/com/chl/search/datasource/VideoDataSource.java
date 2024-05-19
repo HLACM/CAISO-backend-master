@@ -25,7 +25,9 @@ public class VideoDataSource implements Datasource<VideoVO> {
 
     @Scheduled(fixedRate = 60 * 1000 * 5)
     public void getCookie() {
+        //向哔哩哔哩网站发送请求，获取该URL返回的响应
         HttpResponse response = HttpRequest.get("https://www.bilibili.com/").execute();
+        //从响应中获取cookie信息
         cookies = response.getCookies();
     }
 
@@ -36,8 +38,11 @@ public class VideoDataSource implements Datasource<VideoVO> {
             videoVOPage.setRecords(null);
             return videoVOPage;
         }
-        String body = HttpRequest.get("https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=" + searchText).cookie(cookies).execute().body();
+        //通过.execute()方法执行该请求，并通过.body()方法获取HTTP响应的内容
+        String body = HttpRequest.get("https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=" + searchText)
+                .cookie(cookies).execute().body();
         JSONObject jsonObject = JSONUtil.parseObj(body);
+        //响应体中data字段和result字段存储主要信息
         JSONObject data = jsonObject.get("data", JSONObject.class);
         JSONArray result = data.get("result", JSONArray.class);
         Page<VideoVO> page = new Page<>();
@@ -53,6 +58,7 @@ public class VideoDataSource implements Datasource<VideoVO> {
                 String keyword = matcher.group(1);
                 title = title.replaceFirst("<em class=\"keyword\">" + keyword + "</em>", "<font color=\"red\">" + keyword + "</font>");
             }
+            //获取图片地址
             String pic = "http:" + ob.getStr("pic");
             VideoVO videoVO = new VideoVO(author, url, title, pic);
             list.add(videoVO);
